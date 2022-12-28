@@ -58,7 +58,7 @@
                     <div class="grid ">
                         <div class="col-8">
                             <div class="p-inputgroup">
-                            <InputText v-model="listName" list="names" placeholder="Sugar" name="listName" type="text" />
+                            <InputText v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
                             <datalist id="names" >
                                 <option v-for="name in names" v-bind:key="name">
                                 {{ name }}
@@ -68,19 +68,19 @@
                         </div>
                         <div class="col-4 -ml-2">
                             <div class="p-inputgroup">
-                            <InputNumber v-model="quantity" pattern="\d*" mode="decimal" class="p-inputnumber-button-up" name="quantity" type="number" min="1" placeholder="0" /> 
+                            <InputNumber v-model="quantity"  :model-value="listQuantityValue"  name="quantity" type="number" min="1" pattern="\d*"  placeholder="0" /> 
                             </div>
                         </div>
                         <div class="col-12 -my-2 units">
                             <RadioButton v-model="unit"  input-id="kg" name="unit" value="kg" />
                             <label for="kg">kg</label>
-                            <RadioButton v-model="unit" name="unit" value="gm" />
+                            <RadioButton v-model="unit" input-id="gm" name="unit" value="gm" />
                             <label for="gm">gm</label>
-                            <RadioButton v-model="unit" name="unit" value="l" />
+                            <RadioButton v-model="unit" input-id="l" name="unit" value="l" />
                             <label for="l">l</label>
-                            <RadioButton v-model="unit" name="unit" value="ml" />
+                            <RadioButton v-model="unit" input-id="ml" name="unit" value="ml" />
                             <label for="ml">ml</label>
-                            <RadioButton v-model="unit" name="unit" value="item" />
+                            <RadioButton v-model="unit" input-id="item" name="unit" value="item" />
                             <label for="item">item</label>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
             </div>
         </div>
     </div>
-    <Toast :breakpoints="{'920px': {width: '100%', right: '0', left: '0'}}" />
+    <Toast position="bottom-right" class="mb-7" :breakpoints="{'920px': {width: '100%', right: '0', left: '0',bottom:'50px'}}" />
 </template>
 <style  scoped>
 
@@ -137,7 +137,11 @@ import names from '../assets/data.json';
                     };
                     this.items.push(item);
                     this.updateItems();
-                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${this.quantity} ${this.unit} added`, life: 3000});
+                    // this.listName = '';
+                    this.$emit("update:listNameValue",'')
+                    this.$emit("update:listQuantityValue",'')
+                    // this.quantity="";
+                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 3000});
                 }else{
                     alert("Name and quantity are must");
                 }
