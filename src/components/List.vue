@@ -58,7 +58,7 @@
                     <div class="grid ">
                         <div class="col-8">
                             <div class="p-inputgroup">
-                            <InputText v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
+                            <InputText autofocus="true" ref="listName" v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
                             <datalist id="names" >
                                 <option v-for="name in names" v-bind:key="name">
                                 {{ name }}
@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-4 -ml-2">
                             <div class="p-inputgroup">
-                            <InputNumber v-model="quantity"  :model-value="listQuantityValue"  name="quantity" type="number" min="1" pattern="\d*"  placeholder="0" /> 
+                            <InputNumber v-model="quantity"  :model-value="listQuantityValue"  name="quantity" type="tel" min="1" pattern="\d*"  placeholder="0" /> 
                             </div>
                         </div>
                         <div class="col-12 -my-2 units">
@@ -137,11 +137,10 @@ import names from '../assets/data.json';
                     };
                     this.items.push(item);
                     this.updateItems();
-                    // this.listName = '';
                     this.$emit("update:listNameValue",'')
                     this.$emit("update:listQuantityValue",'')
-                    // this.quantity="";
-                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 3000});
+                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 1000});
+                    this.$refs.listName.focus()
                 }else{
                     alert("Name and quantity are must");
                 }
