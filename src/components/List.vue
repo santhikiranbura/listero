@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div class="list" style="margin-bottom: 200px;">
+        <div class="list" style="margin-bottom: 100px;">
             <div class="surface-section px-4 py-5 md:px-6 lg:px-8 ">
                 <div class="flex align-items-start mb-4 justify-content-between flex-row">
                     <div>
@@ -58,12 +58,17 @@
                     <div class="grid ">
                         <div class="col-8">
                             <div class="p-inputgroup">
-                            <InputText v-model="name" class="p-inputtext-sm" placeholder="Sugar" name="name" type="text" />
+                            <InputText v-model="listName" list="names" placeholder="Sugar" name="listName" type="text" />
+                            <datalist id="names" >
+                                <option v-for="name in names" v-bind:key="name">
+                                {{ name }}
+                                </option>
+                            </datalist>
                             </div>
                         </div>
                         <div class="col-4 -ml-2">
                             <div class="p-inputgroup">
-                            <InputNumber v-model="quantity" class="p-inputtext-sm" name="quantity" type="number" min="1" placeholder="0" /> 
+                            <InputNumber v-model="quantity" pattern="\d*" mode="decimal" class="p-inputnumber-button-up" name="quantity" type="number" min="1" placeholder="0" /> 
                             </div>
                         </div>
                         <div class="col-12 -my-2 units">
@@ -94,6 +99,7 @@
 </style>
 <script>
 import { uuid } from 'vue-uuid'; 
+import names from '../assets/data.json';
     export default{
         name:'List',
         props:{
@@ -111,7 +117,8 @@ import { uuid } from 'vue-uuid';
                             this.deleteList()
                         } }]
                     }
-                ]
+                ],
+                names:names
             }
         },
         created(){
@@ -121,9 +128,9 @@ import { uuid } from 'vue-uuid';
         },
         methods:{
             addItem(){
-                if(this.name && this.quantity){
+                if(this.listName && this.quantity){
                     const item = {
-                        "name":this.name,
+                        "name":this.listName,
                         "quantity": this.quantity,
                         "unit": this.unit,
                         "id":uuid.v4()
