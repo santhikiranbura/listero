@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <div class="list" style="margin-bottom: 100px;">
+    <div class="h-screen"  >
+        <div class="list" style="padding-bottom: 100px;" >
             <div class="surface-section px-4 py-5 md:px-6 lg:px-8 ">
                 <div class="flex align-items-start mb-4 justify-content-between flex-row">
                     <div>
@@ -33,10 +33,10 @@
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
                 
                 >
-                    <Column field="name" sortable header="Name" style="width:25%"></Column>
-                    <Column field="quantity" sortable header="Quantity" style="width:25%"></Column>
-                    <Column field="unit" header="Unit" style="width:25%"></Column>
-                    <Column headerStyle="width: 4em"  bodyStyle="text-align: center">
+                    <Column field="name" sortable header="Name" header-style="width:26rem"></Column>
+                    <Column field="quantity" sortable header="Quantity" headerStyle="width:2rem"></Column>
+                    <Column field="unit" header="Unit" headerStyle="width:2rem"></Column>
+                    <Column headerStyle="width: 2em"  bodyStyle="text-align: center">
                         <template #body="{data}">
                             <Button class="p-button-danger p-button-rounded" @click="deleteItem(data.id)" type="button" icon="pi pi-fw pi-trash"></Button>
                         </template>
