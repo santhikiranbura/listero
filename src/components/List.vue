@@ -58,7 +58,7 @@
                     <div class="grid ">
                         <div class="col-8">
                             <div class="p-inputgroup">
-                            <InputText autofocus="true" ref="listName" v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
+                            <InputText autofocus="true" id="listName" v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
                             <datalist id="names" >
                                 <option v-for="name in names" v-bind:key="name">
                                 {{ name }}
@@ -139,8 +139,6 @@ import names from '../assets/data.json';
                     this.updateItems();
                     this.$emit("update:listNameValue",'')
                     this.$emit("update:listQuantityValue",'')
-                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 1000});
-                    this.$refs.listName.focus()
                 }else{
                     alert("Name and quantity are must");
                 }
