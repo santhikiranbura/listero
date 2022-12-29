@@ -1,5 +1,5 @@
 <template>
-    <Menubar class="bg-white" :model="items" >
+    <Menubar class="bg-white"  >
     <template #start>
         <router-link to="/" >
             <img alt="logo" src="../assets/Listero.png" height="40" class="mr-2"> 

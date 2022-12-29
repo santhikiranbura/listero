@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen"  >
-        <div class="list" style="padding-bottom: 100px;" >
+        <div class="list"  >
             <div class="surface-section px-4 py-5 md:px-6 lg:px-8 ">
                 <div class="flex align-items-start mb-4 justify-content-between flex-row">
                     <div>
@@ -29,13 +29,13 @@
                         default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageDropdown'
                     }"
                     responsiveLayout="scroll"
-                    :scrollable="true" scrollHeight="400px" :loading="loading"
+                    :scrollable="true" scrollHeight="400px" 
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
                 
                 >
-                    <Column field="name" sortable header="Name" header-style="width:26rem"></Column>
-                    <Column field="quantity" sortable header="Quantity" headerStyle="width:2rem"></Column>
-                    <Column field="unit" header="Unit" headerStyle="width:2rem"></Column>
+                    <Column field="name" sortable header="Name" headerStyle="width:250px" bodyStyle="width:250px;word-break:break-all;" ></Column>
+                    <Column field="quantity" sortable header="Quantity" headerStyle="width:150px" ></Column>
+                    <Column field="unit" header="Unit" headerStyle="width:50px" ></Column>
                     <Column headerStyle="width: 2em"  bodyStyle="text-align: center">
                         <template #body="{data}">
                             <Button class="p-button-danger p-button-rounded" @click="deleteItem(data.id)" type="button" icon="pi pi-fw pi-trash"></Button>
@@ -51,27 +51,27 @@
                 </DataTable>
             </div>
         </div>
-
-        <div class="bottom-0 fixed z-5 pt-2 w-full bg-indigo-100 shadow-2">
-            <div class="grid p-fluid  surface-card mx-auto  w-full lg:w-6">
-                <div class="col-9 bg-indigo-100">
-                    <div class="grid ">
-                        <div class="col-8">
+        <Dialog header="Add New Item" v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+            <div class="grid pt-1">
+                <div class="col-12">
+                    <div class="grid">
+                        <div class="col-9">
                             <div class="p-inputgroup">
-                            <InputText autofocus="true" id="listName" v-model="listName" :model-value="listNameValue" list="names" placeholder="Sugar" name="listName" type="text" />
-                            <datalist id="names" >
-                                <option v-for="name in names" v-bind:key="name">
-                                {{ name }}
-                                </option>
-                            </datalist>
+                                <InputText   id="listName" v-model="listName" 
+                                list="names" placeholder="Sugar" name="listName"  />
+                                <datalist id="names" >
+                                    <option v-for="name in names" v-bind:key="name">
+                                    {{ name }}
+                                    </option>
+                                </datalist>
                             </div>
                         </div>
-                        <div class="col-4 -ml-2">
+                        <div class="col-3">
                             <div class="p-inputgroup">
-                            <InputNumber v-model="quantity"  :model-value="listQuantityValue"  name="quantity" type="tel" min="1" pattern="\d*"  placeholder="0" /> 
+                                <InputNumber v-model="quantity"    name="quantity" type="tel"    placeholder="0" /> 
                             </div>
                         </div>
-                        <div class="col-12 -my-2 units">
+                        <div class="col-12 units">
                             <RadioButton v-model="unit"  input-id="kg" name="unit" value="kg" />
                             <label for="kg">kg</label>
                             <RadioButton v-model="unit" input-id="gm" name="unit" value="gm" />
@@ -85,14 +85,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 text-center bg-indigo-100 pt-4 pr-2 pl-0 b">
-                    <Button icon="pi pi-plus" class="p-button-rounded p-button-raised"  @click="addItem()">
-                    </Button>
-                </div>
+
+            </div>   
+            <template #footer>
+                <Button label="Add" icon="pi pi-plus" @click="addItem()"  />
+            </template>
+        </Dialog>
+        <Dialog header="Confirmation" v-model:visible="displayConfirmation" :style="{width: '350px', zIndex:'1'}" :modal="true">
+            <div class="confirmation-content">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span>Item Name and Quantity are required</span>
             </div>
-        </div>
+            <template #footer>
+                <Button label="ok" icon="pi pi-check" @click="()=>{this.displayConfirmation = false}" class="p-button-text" autofocus />
+            </template>
+        </Dialog>
     </div>
-    <Toast position="bottom-right" class="mb-7" :breakpoints="{'920px': {width: '100%', right: '0', left: '0',bottom:'50px'}}" />
 </template>
 <style  scoped>
 
@@ -112,13 +120,35 @@ import names from '../assets/data.json';
                 items:[],
                 menuOptions: [
                     {
+                        label: 'New',
+                        items:[
+                            {
+                                label: 'Add Item',
+                                icon: 'pi pi-fw pi-plus',
+                                command:()=>{
+                                    this.displayModal = true
+                                }
+                            }
+                        ]
+                    },
+                    {
                         label: 'Options',
-                        items: [{label: 'Delete', icon: 'pi pi-fw pi-trash', command:()=>{
-                            this.deleteList()
-                        } }]
+                        items: [
+                            {
+                                label: 'Delete',
+                                icon: 'pi pi-fw pi-trash',
+                                command:()=>{
+                                    this.deleteList()
+                                },
+                            }
+                        ]
                     }
                 ],
-                names:names
+                listName:'',
+                quantity: parseInt(1),
+                names:names,
+                displayModal:false,
+                displayConfirmation:false
             }
         },
         created(){
@@ -137,10 +167,11 @@ import names from '../assets/data.json';
                     };
                     this.items.push(item);
                     this.updateItems();
-                    this.$emit("update:listNameValue",'')
-                    this.$emit("update:listQuantityValue",'')
+                    this.quantity = 1;
+                    this.listName='';
+                    this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 3000});
                 }else{
-                    alert("Name and quantity are must");
+                    this.displayConfirmation = true;
                 }
             },
             updateItems(){
@@ -159,7 +190,6 @@ import names from '../assets/data.json';
             toggle(event) {
                 this.$refs.menu.toggle(event);
             }
-
         }
     }
 </script>

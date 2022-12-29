@@ -1,12 +1,24 @@
 <template>
   <div>
     <Header></Header>
+    <Dialog header="Confirmation" v-model:visible="displayConfirmation" :style="{width: '350px', zIndex:'1'}" :modal="true">
+            <div class="confirmation-content">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+                <span>Are you sure you want to delete {{listname}}?</span>
+            </div>
+            <template #footer>
+                <Button label="No" icon="pi pi-times" @click="()=>{this.displayConfirmation = false}" class="p-button-text"/>
+                <Button label="Yes" icon="pi pi-check" @click="deleteNow()" class="p-button-text" autofocus />
+            </template>
+        </Dialog>
     <router-view 
     :db="db" 
     @addList="addList" 
     @deleteList="deleteList"
     @updateItems="updateItems" 
      />
+     <Toast position="top-right"  :breakpoints="{'920px': {width: '100%', right: '0', left: '0',bottom:'50px'}}" />
+    
   </div>
 </template>
 <style scoped>
@@ -38,6 +50,8 @@ export default {
   data(){
     return {
       db:db,
+      displayConfirmation: false,
+      listname:''
     }
   },
   created(){
@@ -49,11 +63,16 @@ export default {
         localStorage.setItem(user,JSON.stringify(this.db));
     },
     deleteList(listname){
-      if(window.confirm("Do you really want to delete "+listname)){
-        delete this.db[listname];
-        localStorage.setItem(user,JSON.stringify(this.db));
-        this.$router.push("/");
-      }
+      this.listname = listname;
+      this.displayConfirmation = true;
+    },
+    deleteNow(){
+      delete this.db[this.listname];
+      localStorage.setItem(user,JSON.stringify(this.db));
+      this.$toast.add({severity:'success', summary: 'Success', detail:`Successfully deleted ${this.listname}`, life: 3000});
+      this.$router.push("/");
+      this.displayConfirmation = false;
+
     },
     updateItems(items,listname){
       this.db[listname] = items;

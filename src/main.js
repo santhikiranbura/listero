@@ -13,6 +13,7 @@ import Menu from 'primevue/menu';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Menubar from 'primevue/menubar';
+import Dialog from 'primevue/dialog';
 import 'primevue/resources/themes/lara-light-indigo/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
@@ -34,5 +35,6 @@ app.component('Menu',Menu)
 app.component('DataTable',DataTable)
 app.component('Column',Column)
 app.component('Menubar',Menubar)
+app.component('Dialog',Dialog)
 
 app.mount('#app');
