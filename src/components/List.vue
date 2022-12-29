@@ -52,7 +52,7 @@
             </div>
         </div>
         <form ref="addItemForm">
-        <Dialog header="Add New Item" class="z-5" v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+        <Dialog header="Add New Item" class="z-5"  position="top"  v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
             <div class="grid pt-1">
                 <div class="col-12">
                     <div class="grid">

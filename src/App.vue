@@ -17,7 +17,7 @@
     @deleteList="deleteList"
     @updateItems="updateItems" 
      />
-     <Toast position="top-right" class="z-0" :breakpoints="{'920px': {width: '100%', right: '0', left: '0',bottom:'50px'}}" />
+     <Toast position="bottom-right" class="z-0" :breakpoints="{'920px': {width: '100%', right: '0', left: '0',bottom:'50px'}}" />
     
   </div>
 </template>
