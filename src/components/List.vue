@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-3">
                             <div class="p-inputgroup">
-                                <InputNumber v-model="quantity"  name="quantity" type="tel"     /> 
+                                <InputNumber v-model="quantity"  name="quantity" type="tel" placeholder="1"    /> 
                             </div>
                         </div>
                         <div class="col-12 units">
@@ -146,7 +146,7 @@ import names from '../assets/data.json';
                     }
                 ],
                 listName:'',
-                quantity: '',
+                quantity: undefined,
                 names:names,
                 displayModal:false,
                 displayConfirmation:false
@@ -169,7 +169,7 @@ import names from '../assets/data.json';
                     this.items.push(item);
                     this.updateItems();
                     this.listName='',
-                    this.quantity='',
+                    this.quantity=undefined,
                     this.$refs.addItemForm.reset(); 
                     this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 3000});
                 }else{
