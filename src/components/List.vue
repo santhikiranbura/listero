@@ -51,7 +51,8 @@
                 </DataTable>
             </div>
         </div>
-        <Dialog header="Add New Item" v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+        <form ref="addItemForm">
+        <Dialog header="Add New Item" class="z-5" v-model:visible="displayModal" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
             <div class="grid pt-1">
                 <div class="col-12">
                     <div class="grid">
@@ -68,7 +69,7 @@
                         </div>
                         <div class="col-3">
                             <div class="p-inputgroup">
-                                <InputNumber v-model="quantity"    name="quantity" type="tel"    placeholder="0" /> 
+                                <InputNumber v-model="quantity"  name="quantity" type="tel"     /> 
                             </div>
                         </div>
                         <div class="col-12 units">
@@ -83,14 +84,14 @@
                             <RadioButton v-model="unit" input-id="item" name="unit" value="item" />
                             <label for="item">item</label>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
-
             </div>   
             <template #footer>
                 <Button label="Add" icon="pi pi-plus" @click="addItem()"  />
             </template>
         </Dialog>
+    </form>
         <Dialog header="Confirmation" v-model:visible="displayConfirmation" :style="{width: '350px', zIndex:'1'}" :modal="true">
             <div class="confirmation-content">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -145,7 +146,7 @@ import names from '../assets/data.json';
                     }
                 ],
                 listName:'',
-                quantity: parseInt(1),
+                quantity: '',
                 names:names,
                 displayModal:false,
                 displayConfirmation:false
@@ -167,8 +168,9 @@ import names from '../assets/data.json';
                     };
                     this.items.push(item);
                     this.updateItems();
-                    this.quantity = 1;
-                    this.listName='';
+                    this.listName='',
+                    this.quantity='',
+                    this.$refs.addItemForm.reset(); 
                     this.$toast.add({severity:'success', summary: 'Success', detail:`${item.name} ${item.quantity} ${item.unit} added`, life: 3000});
                 }else{
                     this.displayConfirmation = true;
