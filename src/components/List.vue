@@ -56,7 +56,7 @@
             <div class="grid pt-1">
                 <div class="col-12">
                     <div class="grid">
-                        <div class="col-9">
+                        <div class="col-8">
                             <div class="p-inputgroup">
                                 <InputText   id="listName" v-model="listName" 
                                 list="names" placeholder="Sugar" name="listName"  />
@@ -67,9 +67,9 @@
                                 </datalist>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="p-inputgroup">
-                                <InputNumber v-model="quantity"  name="quantity" type="tel" placeholder="1"    /> 
+                                <InputNumber v-model="quantity"  name="quantity" type="tel" pattern="[0-9]*"  placeholder="Quantity"    /> 
                             </div>
                         </div>
                         <div class="col-12 units">
